@@ -1,0 +1,36 @@
+module.exports = (pageObject, username, firstName, lastName, password, email, phone, location, gender, description, image) => {
+    pageObject
+        .maximizeWindow()
+        .click('@signUpButton')
+        .waitForElementVisible('form[class="register"]', 5000)
+        .setValue('@username', username)
+        .setValue('@firstName', firstName)
+        .setValue('@lastName', lastName)
+        .setValue('@password', password)
+        .setValue('@email', email)
+        .setValue('@phoneNumber', phone)
+        .setValue('@yourLocation', location)
+        .click('@genderSelect')
+        .waitForElementVisible('@selectGenderOption', 5000)
+        .click(gender)
+        .getLocationInView('input[accept="image/*"]')
+        .waitForElementVisible('@registerButton', 5000)
+        .setValue('@describeYourself', description)
+        .setValue('input[accept="image/*"]', require('path').resolve(`/Users/pashafomin/Desktop/DevMtn/moment-testing-pics/${image}`))
+        .pause(3000)
+        .click('@registerButton')
+        .waitForElementVisible('form[class="Login"]', 5000)
+        .setValue('@logInUsername', username)
+        .setValue('@logInPassword', password)
+        .click('@logInButton')
+        .waitForElementVisible('img[class="user-img"]', 5000)
+        .expect.element('div[class="user-profile-wrapper"]').text.to.contain(firstName, location, description)
+    pageObject
+        .click('div[class="image-loggedin"]')
+        .pause(500)
+        .click('div[class="image-loggedin"]')
+        .waitForElementVisible('img[class="logo"]', 5000)
+        .expect.element('div[class="slogan"]').text.to.contain('Moment is a platform for people to share their unique knowledge, passions, and abilities to anyone by hosting experiences. Discover your next adventure!')
+
+
+}
